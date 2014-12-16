@@ -1,63 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<install type="component" version="1.5.0">
-		<name>JMailUnsubscribe</name>
-		<author>Jean-Pierre Schnyder</author>
-		<creationDate>2014-12-15</creationDate>
-		<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-		<version>1.0 </version>
-		<description>Unsubscribe a J!MailAlert for the specified email address</description> 
-		<install>
-			<sql>
-				<file driver="mysql" charset="utf8">install.mysql.sql</file>
-			</sql>
-		</install>
-		<uninstall>
-			<sql>
-				<file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
-			</sql>
-		</uninstall>
-		<installfile>install.jmailunsubscribe.php</installfile>
-		<uninstallfile>uninstall.jmailunsubscribe.php</uninstallfile>
-  	<!-- Site Main File Copy Section -->
-		<files folder="component">
+<install type="component" version="1.5.0" method="upgrade">
+	<name>JMailUnsubscribe</name>
+	<author>Jean-Pierre Schnyder</author>
+	<creationDate>2014-12-15</creationDate>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<version>${extension_version}</version><!-- ${extension_version defined 
+		in ./build.properties -->
+	<description>Unsubscribe a J!MailAlert for the specified email address
+	</description>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">install.mysql.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
+		</sql>
+	</uninstall>
+	<installfile>install.jmailunsubscribe.php</installfile>
+	<uninstallfile>uninstall.jmailunsubscribe.php</uninstallfile>
+	<!-- Site Main File Copy Section -->
+	<files folder="component">
+		<filename>jmailunsubscribe.php</filename>
+		<filename>controller.php</filename>
+		<filename>index.html</filename>
+		<folder>helpers</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+	</files>
+	<!-- Language -->
+	<languages folder="component/language/">
+		<language tag="en-GB">en-GB.com_jmailunsubscribe.ini</language>
+	</languages>
+
+	<administration>
+		<menu>JMailUnsubscribe</menu>
+		<submenu>
+			<menu link="option=com_jmailunsubscribe">JMailUnsubscribe</menu>
+			<menu link="option=com_categories&amp;section=com_jmailunsubscribe">Categories</menu>
+		</submenu>
+		<!-- Administration Main File Copy Section -->
+		<files>
+			<filename>jmailunsubscribe.xml</filename>
+		</files>
+		<files folder="administrator">
+			<filename>install.mysql.sql</filename>
+			<filename>uninstall.mysql.sql</filename>
 			<filename>jmailunsubscribe.php</filename>
 			<filename>controller.php</filename>
-			<filename>index.html</filename>
+			<filename>config.xml</filename>
 			<folder>helpers</folder>
 			<folder>models</folder>
+			<folder>tables</folder>
 			<folder>views</folder>
+			<folder>elements</folder>
 		</files>
-  	<!-- Language -->
-  	<languages folder="component/language/">
-  		<language tag="en-GB">en-GB.com_jmailunsubscribe.ini</language>
-  	</languages>
-
-		<administration>
-			<menu>JMailUnsubscribe</menu>
-			<submenu>
-				<menu link="option=com_jmailunsubscribe">JMailUnsubscribe</menu>
-				<menu link="option=com_categories&amp;section=com_jmailunsubscribe">Categories</menu>
-			</submenu>
- 			<!-- Administration Main File Copy Section -->
-  		<files>
-				<filename>jmailunsubscribe.xml</filename>
-			</files>
-			<files folder="administrator">
-				<filename>install.mysql.sql</filename>
-				<filename>uninstall.mysql.sql</filename>
-				<filename>jmailunsubscribe.php</filename>
-				<filename>controller.php</filename>
-				<filename>config.xml</filename>
-				<folder>helpers</folder>
-				<folder>models</folder>
-				<folder>tables</folder>
-				<folder>views</folder>
-				<folder>elements</folder>
-			</files>
-			<!-- Language Administrator-->
-  		<languages folder="administrator/language/">
-  			<language tag="en-GB">en-GB.com_jmailunsubscribe.menu.ini</language>
-  			<language tag="en-GB">en-GB.com_jmailunsubscribe.ini</language>
-  		</languages>
-  	</administration>
-	</install>
+		<!-- Language Administrator -->
+		<languages folder="administrator/language/">
+			<language tag="en-GB">en-GB.com_jmailunsubscribe.menu.ini</language>
+			<language tag="en-GB">en-GB.com_jmailunsubscribe.ini</language>
+		</languages>
+	</administration>
+</install>
