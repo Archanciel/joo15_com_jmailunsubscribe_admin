@@ -6,33 +6,10 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<version>${extension_version}</version><!-- ${extension_version defined 
 		in ./build.properties -->
-	<description>Unsubscribe a J!MailAlert for the specified email address
+	<description>Administrator component to unsubscribe a J!MailAlert for the specified email address
 	</description>
-	<install>
-		<sql>
-			<file driver="mysql" charset="utf8">install.mysql.sql</file>
-		</sql>
-	</install>
-	<uninstall>
-		<sql>
-			<file driver="mysql" charset="utf8">uninstall.mysql.sql</file>
-		</sql>
-	</uninstall>
 	<installfile>install.jmailunsubscribe.php</installfile>
 	<uninstallfile>uninstall.jmailunsubscribe.php</uninstallfile>
-	<!-- Site Main File Copy Section -->
-	<files folder="component">
-		<filename>jmailunsubscribe.php</filename>
-		<filename>controller.php</filename>
-		<filename>index.html</filename>
-		<folder>helpers</folder>
-		<folder>models</folder>
-		<folder>views</folder>
-	</files>
-	<!-- Language -->
-	<languages folder="component/language/">
-		<language tag="en-GB">en-GB.com_jmailunsubscribe.ini</language>
-	</languages>
 
 	<administration>
 		<menu>JMailUnsubscribe</menu>
@@ -45,8 +22,6 @@
 			<filename>jmailunsubscribe.xml</filename>
 		</files>
 		<files folder="administrator">
-			<filename>install.mysql.sql</filename>
-			<filename>uninstall.mysql.sql</filename>
 			<filename>jmailunsubscribe.php</filename>
 			<filename>controller.php</filename>
 			<filename>config.xml</filename>

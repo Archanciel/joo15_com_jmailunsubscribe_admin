@@ -5,7 +5,7 @@
 	<property name="artifact.name" value="jmailunsubscribe" />
 	<property name="joomla.root"
 		value="D:\Development\web\htdocs\plusconscient15_dev" />
-	<property name="src"
+	<property name="admin.src"
 		value="${joomla.root}\administrator\components\com_${artifact.name}" />
 	<property name="front.src"
 		value="${joomla.root}\components\com_${artifact.name}" />
@@ -16,28 +16,13 @@
 		override="true" />
 	<property name="version">v${extension_version}</property><!-- ${extension_version defined in ./build.properties -->
 
-<!--  
-	<target name="copy_to_front_dir" description="Copies files to front component src dir">
-		<delete dir="${front.src}" includeemptydirs="true" verbose="false" />
-		<copy todir="${front.src}" overwrite="true">
-			<fileset dir="${src}">
-				<include name="${artifact.name}.php" />
-				<include name="index.html" />
-			</fileset>
-			<fileset dir="${src}/component">
-				<include name="views/**" />
-			</fileset>
-		</copy>
-	</target>
--->
-
 	<target name="build_packaging_dir" description="Copies files to component packaging dir">
 		<delete dir="${packaging.dir}" includeemptydirs="true" verbose="false" />
 		<copy todir="${packaging.dir}/administrator" overwrite="true">
-			<fileset dir="${src}">
+			<fileset dir="${admin.src}">
 				<include name="index.html" />
 				<include name="${artifact.name}.php" />
-				<include name="*.sql" />
+				<!-- include name="*.sql" />  -->
 				<include name="controller.php" />
 				<include name="config.xml" />
 				<include name="index.html" />
@@ -53,27 +38,16 @@
 			<filterchain>
 				<expandproperties /><!-- applies Phing properties to joomla xml files -->
 			</filterchain>
-			<fileset dir="${src}">
+			<fileset dir="${admin.src}">
 				<include name="${artifact.name}.xml" />
 				<include name="install.${artifact.name}.php" />
 				<include name="uninstall.${artifact.name}.php" />
 				<include name="index.html" />
 			</fileset>
 		</copy>
-		<copy todir="${packaging.dir}/component" overwrite="true">
-			<fileset dir="${front.src}">
-				<include name="${artifact.name}.php" />
-				<include name="controller.php" />
-				<include name="index.html" />
-				<include name="helpers/*" />
-				<include name="models/*" />
-				<include name="views/**" />
-				<include name="language/*" />
-			</fileset>
-		</copy>
 	</target>
 
-	<!-- arget name="build_install_zip" depends="copy_to_front_dir, build_packaging_dir" -->
+	<!-- arget name="build_install_zip" depends="build_packaging_dir" -->
 	<target name="build_install_zip" depends="build_packaging_dir"
 		description="build the install zip">
 		<delete file="${install.zip.file.dest}/com_${artifact.name}_${version}.zip" />

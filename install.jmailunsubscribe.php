@@ -16,7 +16,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 function com_install() {
 ?>
 <div class="header">The Component JMailUnsubscribe was sucessfully installed</div>
-<p>Unsubscribe a J!MailAlert for the specified email address</p>
+<p>Administrator component to unsubscribe a J!MailAlert for the specified email address</p>
 <?php
   }
 ?>
