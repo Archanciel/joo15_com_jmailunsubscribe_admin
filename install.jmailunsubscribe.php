@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Joomla! 1.5 component JMailUnsubscribe
@@ -12,11 +12,13 @@
  **/
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined ( '_JEXEC' ) or die ( 'Restricted access' );
 function com_install() {
-?>
-<div class="header">The Component JMailUnsubscribe was sucessfully installed</div>
-<p>Administrator component to unsubscribe a J!MailAlert for the specified email address</p>
+	?>
+<div class="header">The Component JMailUnsubscribe was sucessfully
+	installed</div>
+<p>Administrator component to unsubscribe a J!MailAlert for the
+	specified email address</p>
 <?php
-  }
+}
 ?>
