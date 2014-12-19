@@ -35,7 +35,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 			</td>
 			<td nowrap="nowrap">
 				<?php
- 				 echo $this->lists['catid'];
  				 echo $this->lists['state'];
   				?>
 			</td>
@@ -57,24 +56,11 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 				<th width="5%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 				</th>
-				<th width="8%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'Order', 'a.ordering', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-					<?php echo JHTML::_('grid.order', $this->items ); ?>
-				</th>
 				<th width="15%" class="title">
 					<?php echo JHTML::_('grid.sort', 'Category', 'category', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 				</th>
 				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'Created', 'a.created', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-				</th>
-				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'Created By', 'a.created_by', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-				</th>
-				<th class="title">
-					<?php echo JHTML::_('grid.sort', 'Modified', 'a.modified', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-				</th>
- 				<th width="1%" nowrap="nowrap">
-					<?php echo JHTML::_('grid.sort', 'Hits', 'a.hits', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 				</th>
  				<th width="1%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
@@ -102,7 +88,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  if ($row->modified ="0000-00-00 00:00:00") {$datemodified = JText::_( 'not modified' );} else
  	{$datemodified	= JHTML::_('date',  $row->modified, JText::_('DATE_FORMAT_LC4') );}
   $published = JHTML::_('grid.published', $row, $i );
- $ordering = ($this->lists['order'] == 'a.ordering');
  $row->cat_link = JRoute::_( 'index.php?option=com_categories&section=com_jmailunsubscribe&task=edit&type=other&cid[]='. $row->catid );
   ?>
 	<tr class="<?php echo "row$k"; ?>">
@@ -126,28 +111,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 </td>
 <td align="center">
 <?php echo $published;?>
-</td>
-<td class="order">
-<span><?php echo $this->pagination->orderUpIcon( $i, ($row->catid == @$this->items[$i-1]->catid),'orderup', 'Move Up', $ordering ); ?></span>
-<span><?php echo $this->pagination->orderDownIcon( $i, $n, ($row->catid == @$this->items[$i+1]->catid), 'orderdown', 'Move Down', $ordering ); ?></span>
-<?php $disabled = $ordering ? '' : 'disabled="disabled"'; ?>
-<input type="text" name="order[]" size="5" value="<?php echo $row->ordering;?>" <?php echo $disabled ?> class="text_area" style="text-align: center" />
-</td>
 <td>
 <a href="<?php echo $row->cat_link; ?>" title="<?php echo JText::_( 'Edit Category' ); ?>">
 <?php echo $row->category; ?>
 </a>
 </td>
-<td align="left"><?php echo $datecreated; ?>
-</td>
 <td align="left"><?php echo $row->author; ?>
 </td>
-<td align="left"><?php echo $datemodified; ?>
-</td>
 
- <td align="center">
-<?php echo $row->hits; ?>
-</td>
  <td align="center">
 <?php echo $row->id; ?>
 </td>
