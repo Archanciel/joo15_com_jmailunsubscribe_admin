@@ -62,6 +62,12 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					<th class="title">
 						<?php echo JHTML::_('grid.sort', 'Created By', 'a.created_by', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
+					<th class="title">
+						<?php echo JHTML::_('grid.sort', 'Created', 'a.created', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+					</th>
+					<th class="title">
+						<?php echo JHTML::_('grid.sort', 'Created', 'a.created', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+					</th>
 					<th width="1%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort', 'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
@@ -91,7 +97,7 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 						}
 						$published = JHTML::_ ( 'grid.published', $row, $i );
 						$row->cat_link = JRoute::_ ( 'index.php?option=com_categories&section=com_jmailunsubscribe&task=edit&type=other&cid[]=' . $row->catid );
-				?>
+						?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
 						<?php echo $this->pagination->getRowOffset( $i ); ?>
@@ -101,43 +107,47 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					</td>
 					<td>
 						<?php
-							if (JTable::isCheckedOut ( $this->user->get ( 'id' ), $row->checked_out )) {
-								echo $row->title;
-							} else {
-						?>
-								<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit' ); ?>">
+						if (JTable::isCheckedOut ( $this->user->get ( 'id' ), $row->checked_out )) {
+							echo $row->title;
+						} else {
+							?>
+								<a href="<?php echo $link; ?>"
+						title="<?php echo JText::_( 'Edit' ); ?>">
 								<?php echo $row->title; ?></a>
 						<?php
-							}
+						}
 						?>
 					</td>
 					<td align="center">
 						<?php echo $published;?>
 					</td>
-					<td>
-						<a href="<?php echo $row->cat_link; ?>"	title="<?php echo JText::_( 'Edit Category' ); ?>">
+					<td><a href="<?php echo $row->cat_link; ?>"
+						title="<?php echo JText::_( 'Edit Category' ); ?>">
 							<?php echo $row->category; ?>
-						</a>
-					</td>
+						</a></td>
 					<td align="left">
 						<?php echo $row->author; ?>
+					</td>
+					<td align="left"><?php echo $datecreated; ?>
+					</td>
+					<td align="left"><?php echo $datecreated; ?>
 					</td>
 					<td align="center">
 						<?php echo $row->id; ?>
 					</td>
 				</tr>
 				<?php
-					$k = 1 - $k;
+						$k = 1 - $k;
 					}
-					} else {
-				?>
+				} else {
+					?>
 				<tr>
 					<td colspan="11">
 						<?php echo JText::_( 'There are no items present' ); ?>
 					</td>
 				</tr>
 				<?php
-					}
+				}
 				?>
 			</tbody>
 		</table>
