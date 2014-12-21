@@ -19,15 +19,4 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
  *         
  */
 class JMailUnsubscribeHelper {
-	function checkCategories() {
-		global $mainframe;
-		$db = & JFactory::getDBO ();
-		$db->setQuery ( "SELECT * FROM #__categories WHERE `section`='com_jmailunsubscribe'" );
-		$rows = $db->loadAssocList ();
-		if (empty ( $rows )) {
-			$mainframe->enqueueMessage ( JText::_ ( 'You have no categories configured yet' ), 'notice' );
-			return false;
-		}
-		return true;
-	}
 }
