@@ -22,6 +22,12 @@ class JMailUnsubscribeModelItem extends JModel {
 	*/
 	var $_id = null;
 	/**
+	* Item option
+	*
+	* @var int
+	*/
+	var $_option = null;
+	/**
 	* Item data
 	*
 	* @var array
@@ -56,78 +62,11 @@ class JMailUnsubscribeModelItem extends JModel {
 	function &getData() {
 		// Load the item data
 		if ($this->_loadData()) {
-			// Initialize some variables
-			$user = &JFactory::getUser();
-			// Check to see if the category is published
-			if (!$this->_data->cat_pub) {
-				JError::raiseError( 404, JText::_("Resource Not Found") );
-				return;
-			}
-			// Check whether category access level allows access
-			if ($this->_data->cat_access > $user->get('aid', 0)) {
-				JError::raiseError( 403, JText::_('ALERTNOTAUTH') );
-				return;
-			}
+			// removed unnecessary checks
 		} else {
 			$this->_initData();
 		}
 		return $this->_data;
-	}
-	/**
-	* Tests if item is checked out
-	*
-	* @access public
-	* @param int A user id
-	* @return boolean True if checked out
-	*/
-	function isCheckedOut( $uid=0 ) {
-		if ($this->_loadData()) {
-			if ($uid) {
-				return ($this->_data->checked_out && $this->_data->checked_out != $uid);
-			} else {
-				return $this->_data->checked_out;
-			}
-		}
-	}
-	/**
-	* Method to checkin/unlock the item
-	*
-	* @access public
-	* @return boolean True on success
-	*/
-	function checkin() {
-		if ($this->_id) {
-			$item = & $this->getTable();
-			if(! $item->checkin($this->_id)) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
-		return false;
-	}
-	/**
-	* Method to checkout/lock the item
-	*
-	* @access public
-	* @param int $uid User ID of the user checking the article out
-	* @return boolean True on success
-	*/
-	function checkout($uid = null) {
-		if ($this->_id) {
-			// Make sure we have a user id to checkout the article with
-			if (is_null($uid)) {
-				$user =& JFactory::getUser();
-				$uid = $user->get('id');
-			}
-			// Lets get to it and checkout the thing...
-			$item = & $this->getTable();
-			if(!$item->checkout($uid, $this->_id)) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-			return true;
-		}
-		return false;
 	}
 	/**
 	* Method to store the item
@@ -202,47 +141,6 @@ class JMailUnsubscribeModelItem extends JModel {
 	return true;
 	}
 	/**
-	* Method to (un)publish a item
-	*
-	* @access public
-	* @return boolean True on success
-	*/
-	function publish($cid = array(), $publish = 1) {
-		$user =& JFactory::getUser();
-		if (count( $cid )) {
-			JArrayHelper::toInteger($cid);
-			$cids = implode( ',', $cid );
-			$query = 'UPDATE #__jmailunsubscribe'
-			. ' SET published = '.(int) $publish
-			. ' WHERE id IN ( '.$cids.' )'
-			. ' AND ( checked_out = 0 OR ( checked_out = '.(int) $user->get('id').' ) )';
-			$this->_db->setQuery( $query );
-			if (!$this->_db->query()) {
-				$this->setError($this->_db->getErrorMsg());
-				return false;
-			}
-		}
-		return true;
-	}
-	/**
-	* Method to move a item
-	*
-	* @access public
-	* @return boolean True on success
-	*/
-	function move($direction) {
-		$row =& $this->getTable();
-		if (!$row->load($this->_id)) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-		if (!$row->move( $direction, ' catid = '.(int) $row->catid.' AND published >= 0 ' )) {
-			$this->setError($this->_db->getErrorMsg());
-			return false;
-		}
-		return true;
-	}
-	/**
 	* Method to move a item
 	*
 	* @access public
@@ -280,47 +178,15 @@ class JMailUnsubscribeModelItem extends JModel {
 	function _loadData() {
 		// Lets load the item if it doesn't already exist
 		if (empty($this->_data)) {
-			$query = 'SELECT w.*, cc.title AS category,'.
-				' cc.published AS cat_pub, cc.access AS cat_access'.
-				' FROM #__jmailunsubscribe AS w' .
-				' LEFT JOIN #__categories AS cc ON cc.id = w.catid' .
-				' WHERE w.id = '.(int) $this->_id;
+			$query = 'SELECT
+						a.id as alert_id, a.option as alert_option
+					  FROM
+						#__email_alert as a
+					  WHERE 
+						a.id = ' . (int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
-			return (boolean) $this->_data;
-		}
-		return true;
-	}
-	/**
-	* Method to initialise the item data
-	*
-	* @access private
-	* @return boolean True on success
-	*/
-	function _initData() {
-		// Lets load the item if it doesn't already exist
-		if (empty($this->_data)) {
-			$item = new stdClass();
-			$item->id = 0;
-			$item->catid = 0;
-			$item->sid = 0;
-			$item->title = null;
-			$item->alias = null;
-			$item->alertid = null;
-$item->subscribed = null;
-$item->pluginssubscribedto = null;
-
-			$item->created = null;
-			$item->created_by = 0;
-			$item->created_by_alias = null;
-			$item->modified_by = 0;
-			$item->checked_out = 0;
-			$item->checked_out_time = 0;
-			$item->published = 0;
-			$item->ordering = 0;
-			$item->params = null;
-			$item->hits = 0;
-			$this->_data = $item;
+			$this->_option = $this->_data->alert_option;
 			return (boolean) $this->_data;
 		}
 		return true;
