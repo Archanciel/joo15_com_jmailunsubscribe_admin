@@ -36,6 +36,9 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 				<button
 					onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 			</td>
+			<td nowrap="nowrap">
+				<?php echo $this->lists ['state'];?>
+			</td>
 		</tr>
 	</table>
 	<div id="editcell">
@@ -47,6 +50,9 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					</th>
 					<th width="20"><input type="checkbox" name="toggle" value=""
 						onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
+					<th width="1%" nowrap="nowrap">
+						<?php echo JHTML::_('grid.sort', 'Alert ID', 'alert_id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+					</th>
 					<th width="15%" class="title">
 						<?php echo JHTML::_('grid.sort', 'Name', 'user_name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
@@ -61,9 +67,6 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					</th>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort', 'Last login', 'user_lastvisit', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-					</th>
-					<th width="1%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort', 'Alert ID', 'alert_id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
 					<th width="1%" class="title">
 						<?php echo JHTML::_('grid.sort', 'Alert name', 'alert_name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
@@ -96,6 +99,10 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					<td>
 						<?php echo $checked; ?>
 					</td>
+					<td align="center">
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit' ); ?>">
+						<?php echo $row->alert_id; ?></a>
+					</td>
 					<td align="left">
 						<?php echo $row->user_name; ?>
 					</td>
@@ -108,10 +115,6 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					<td align="left"><?php echo $row->user_regdate; ?>
 					</td>
 					<td align="left"><?php echo $row->user_lastvisit; ?>
-					</td>
-					<td align="center">
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit' ); ?>">
-						<?php echo $row->alert_id; ?></a>
 					</td>
 					<td align="left">
 						<?php echo $row->alert_name; ?>
@@ -136,9 +139,9 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 			</tbody>
 		</table>
 	</div>
-	<input type="hidden" name="option" value="com_jmailunsubscribe" /> <input
-		type="hidden" name="task" value="" /> <input type="hidden"
-		name="boxchecked" value="0" /> <input type="hidden"
-		name="filter_order" value="<?php echo $this->lists['order']; ?>" /> <input
-		type="hidden" name="filter_order_Dir" value="" />
+	<input type="hidden" name="option" value="com_jmailunsubscribe" /> 
+	<input type="hidden" name="task" value="" /> 
+	<input type="hidden" name="boxchecked" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>" />
+	<input type="hidden" name="filter_order_Dir" value="" />
 </form>

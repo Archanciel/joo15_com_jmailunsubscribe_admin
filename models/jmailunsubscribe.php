@@ -115,7 +115,7 @@ class JMailUnsubscribeModelJMailUnsubscribe extends JModel {
 		if ($filter_order == 'user_name') {
 			$orderby = ' ORDER BY user_name ' . $filter_order_Dir;
 		} else {
-			$orderby = ' ORDER BY ' . $filter_order . $filter_order_Dir . ' , user_name ';
+			$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir . ' , user_name ';
 		}
 		return $orderby;
 	}
@@ -123,14 +123,31 @@ class JMailUnsubscribeModelJMailUnsubscribe extends JModel {
 		global $mainframe, $option;
 		$search = $mainframe->getUserStateFromRequest ( $option . 'search', 'search', '', 'string' );
 		$search = JString::strtolower ( $search );
-		$where = '';
+		$filter_state = $mainframe->getUserStateFromRequest( $option.'filter_state', 'filter_state', '', 'word' );
+		$whereClause = '';
+		
 		if ($search) {
 			$where = array ();
 			$where [] = 'LOWER(u.username) LIKE ' . $this->_db->Quote ( '%' . $search . '%' );
 			$where [] = 'LOWER(u.name) LIKE ' . $this->_db->Quote ( '%' . $search . '%' );
 			$where [] = 'LOWER(u.email) LIKE ' . $this->_db->Quote ( '%' . $search . '%' );
-			$where = ' WHERE ' . implode ( ' OR ', $where );
+			$whereClause = ' WHERE ( ' . implode ( ' OR ', $where ) . ' ) ';
 		}
-		return $where;
+		
+		if ($filter_state) {
+			if ($filter_state == 'U') {	// U means Unsubscribed
+				$where_state = ' a.option = 0';
+			} else if ($filter_state == 'S') {
+				$where_state = ' a.option <> 0';
+			}
+			
+			if (strlen($whereClause) > 0) {
+				$whereClause = $whereClause . ' AND ' . $where_state;
+			} else {
+				$whereClause = ' WHERE ' . $where_state;
+			}
+		}
+		
+		return $whereClause;
 	}
 }

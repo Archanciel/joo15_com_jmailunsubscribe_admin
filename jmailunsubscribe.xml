@@ -15,7 +15,6 @@
 		<menu>JMailUnsubscribe</menu>
 		<submenu>
 			<menu link="option=com_jmailunsubscribe">JMailUnsubscribe</menu>
-			<menu link="option=com_categories&amp;section=com_jmailunsubscribe">Categories</menu>
 		</submenu>
 		<!-- Administration Main File Copy Section -->
 		<files>

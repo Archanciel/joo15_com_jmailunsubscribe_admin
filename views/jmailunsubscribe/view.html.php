@@ -27,6 +27,7 @@ class JMailUnsubscribeViewJMailUnsubscribe extends JView {
 		global $mainframe, $option;
 		$db = & JFactory::getDBO ();
 		$uri = & JFactory::getURI ();
+		$filter_state = $mainframe->getUserStateFromRequest( $option.'filter_state', 'filter_state', '', 'word' );
 		$filter_order = $mainframe->getUserStateFromRequest ( $option . 'filter_order', 'filter_order', 'user_name', 'cmd' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest ( $option . 'filter_order_Dir', 'filter_order_Dir', '', 'word' );
 		$search = $mainframe->getUserStateFromRequest ( $option . 'search', 'search', '', 'string' );
@@ -35,10 +36,16 @@ class JMailUnsubscribeViewJMailUnsubscribe extends JView {
 		$items = & $this->get ( 'Data' );
 		$total = & $this->get ( 'Total' );
 		$pagination = & $this->get ( 'Pagination' );
-		// build list of categories
-		$javascript = 'onchange="document.adminForm.submit();"';
+
 		// state filter
-		$lists ['state'] = JHTML::_ ( 'grid.state', $filter_state );
+		if ($filter_state == 'U') {	// U means Unsubscribed
+			$lists ['state'] = "<select name=\"filter_state\" id=\"filter_state\" class=\"inputbox\" size=\"1\" onchange=\"submitform();\"><option value=\"\" >- Select Alert Option -</option><option value=\"S\" >Subscribed</option><option value=\"U\" selected=\"selected\">Unsubscribed</option></select>";
+		} else if ($filter_state == 'S') {
+			$lists ['state'] = "<select name=\"filter_state\" id=\"filter_state\" class=\"inputbox\" size=\"1\" onchange=\"submitform();\"><option value=\"\" >- Select Alert Option -</option><option value=\"S\" selected=\"selected\">Subscribed</option><option value=\"U\" >Unsubscribed</option></select>";
+		} else {
+			$lists ['state'] = "<select name=\"filter_state\" id=\"filter_state\" class=\"inputbox\" size=\"1\" onchange=\"submitform();\"><option value=\"\"  selected=\"selected\">- Select Alert Option -</option><option value=\"S\" >Subscribed</option><option value=\"U\" >Unsubscribed</option></select>";
+		}
+		
 		// table ordering
 		$lists ['order_Dir'] = $filter_order_Dir;
 		$lists ['order'] = $filter_order;

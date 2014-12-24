@@ -69,17 +69,16 @@ if (! $edit) {
 							<td><?php echo $this->_item->alert_id ?></td>
 						</tr>
 						<tr>
-							<td width="100" align="right"><strong><label for="subscribed"><?php echo JText::_( 'Alert option' ) ?>:</label></strong></td>
-							<td><input class="text_area" type="text" name="subscribed"
-								id="subscribed" size="3" maxlength="3"
-								value="<?php echo $this->_item->alert_option ?>" /></td>
+							<td width="100" align="right"><strong><?php echo JText::_( 'Alert option to zero' ) ?>:</strong></td>
+							<td><?php echo $this->_item->alert_option ?></td>
 						</tr>
 					</tbody>
 				</table>
 			</td>
 		</tr>
 	</table>
-	<input type="hidden" name="option" value="com_jmailunsubscribe" /> <input
-		type="hidden" name="cid[]" value="<?php echo $this->_item->alert_id; ?>" /> <input
-		type="hidden" name="task" value="" />
+	<input type="hidden" name="option" value="com_jmailunsubscribe" />
+	<input type="hidden" name="subscribed" value="0" /> 
+	<input type="hidden" name="cid[]" value="<?php echo $this->_item->alert_id; ?>" /> 
+	<input type="hidden" name="task" value="" />
 </form>
