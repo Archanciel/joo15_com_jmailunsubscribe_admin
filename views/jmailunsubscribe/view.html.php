@@ -27,10 +27,7 @@ class JMailUnsubscribeViewJMailUnsubscribe extends JView {
 		global $mainframe, $option;
 		$db = & JFactory::getDBO ();
 		$uri = & JFactory::getURI ();
-		JMailUnsubscribeHelper::checkCategories ();
-		$filter_state = $mainframe->getUserStateFromRequest ( $option . 'filter_state', 'filter_state', '', 'word' );
-		$filter_catid = $mainframe->getUserStateFromRequest ( $option . 'filter_catid', 'filter_catid', 0, 'int' );
-		$filter_order = $mainframe->getUserStateFromRequest ( $option . 'filter_order', 'filter_order', 'a.ordering', 'cmd' );
+		$filter_order = $mainframe->getUserStateFromRequest ( $option . 'filter_order', 'filter_order', 'user_name', 'cmd' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest ( $option . 'filter_order_Dir', 'filter_order_Dir', '', 'word' );
 		$search = $mainframe->getUserStateFromRequest ( $option . 'search', 'search', '', 'string' );
 		$search = JString::strtolower ( $search );

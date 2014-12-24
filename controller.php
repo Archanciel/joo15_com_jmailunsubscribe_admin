@@ -36,8 +36,6 @@ class JMailUnsubscribeController extends JController {
 					JRequest::setVar ( 'view', 'item' );
 					JRequest::setVar ( 'edit', false );
 					// Checkout the item
-					$model = $this->getModel ( 'item' );
-					$model->checkout ();
 				}
 				break;
 			case 'edit' :
@@ -46,9 +44,6 @@ class JMailUnsubscribeController extends JController {
 					JRequest::setVar ( 'layout', 'form' );
 					JRequest::setVar ( 'view', 'item' );
 					JRequest::setVar ( 'edit', true );
-					// Checkout the item
-					$model = $this->getModel ( 'item' );
-					$model->checkout ();
 				}
 				break;
 		}
@@ -67,8 +62,6 @@ class JMailUnsubscribeController extends JController {
 		} else {
 			$this->msg = JText::_ ( 'Error Saving Item' );
 		}
-		// Check the table in so it can be edited.... we are done with it anyway
-		$model->checkin ();
 	}
 	function save() {
 		$this->store ();
@@ -118,7 +111,6 @@ class JMailUnsubscribeController extends JController {
 	}
 	function cancel() {
 		$model = $this->getModel ( 'item' );
-		$model->checkin ();
 		$this->setRedirect ( 'index.php?option=com_jmailunsubscribe' );
 	}
 	function orderup() {

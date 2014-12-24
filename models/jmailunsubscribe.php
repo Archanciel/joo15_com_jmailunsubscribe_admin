@@ -92,43 +92,45 @@ class JMailUnsubscribeModelJMailUnsubscribe extends JModel {
 		// Get the WHERE and ORDER BY clauses for the query
 		$where = $this->_buildContentWhere ();
 		$orderby = $this->_buildContentOrderBy ();
-		$query = ' SELECT a.*, cc.title AS category, u.name AS editor, v.name AS author ' . ' FROM #__jmailunsubscribe AS a ' . ' LEFT JOIN #__categories AS cc ON cc.id = a.catid ' . ' LEFT JOIN #__users AS u ON u.id = a.modified_by ' . ' LEFT JOIN #__users AS v ON v.id = a.created_by ' . $where . $orderby;
+		
+		// WARNING: do not put a semi-column at the end of the query !!!
+		$query = '  SELECT 
+						u.username as user_pseudo, u.name as user_name, u.email as user_email, u.registerdate as user_regdate, u.lastvisitdate as user_lastvisit, a.id as alert_id, t.alert_name as alert_name, a.option as alert_option 
+					FROM
+						#__email_alert as a
+					LEFT JOIN
+						#__users as u
+					ON  
+						a.user_id = u.id
+					LEFT JOIN
+						#__email_alert_type as t 
+					ON
+						a.alert_id = t.id' . $where . $orderby;
 		return $query;
 	}
 	function _buildContentOrderBy() {
 		global $mainframe, $option;
-		$filter_order = $mainframe->getUserStateFromRequest ( $option . 'filter_order', 'filter_order', 'a.ordering', 'cmd' );
+		$filter_order = $mainframe->getUserStateFromRequest ( $option . 'filter_order', 'filter_order', 'user_name', 'cmd' );
 		$filter_order_Dir = $mainframe->getUserStateFromRequest ( $option . 'filter_order_Dir', 'filter_order_Dir', '', 'word' );
-		if ($filter_order == 'a.ordering') {
-			$orderby = ' ORDER BY category, a.ordering ' . $filter_order_Dir;
+		if ($filter_order == 'user_name') {
+			$orderby = ' ORDER BY user_name ' . $filter_order_Dir;
 		} else {
-			$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir . ' , category, a.ordering ';
+			$orderby = ' ORDER BY ' . $filter_order . $filter_order_Dir . ' , user_name ';
 		}
 		return $orderby;
 	}
 	function _buildContentWhere() {
 		global $mainframe, $option;
-		$filter_state = $mainframe->getUserStateFromRequest ( $option . 'filter_state', 'filter_state', '', 'word' );
-		$filter_catid = $mainframe->getUserStateFromRequest ( $option . 'filter_catid', 'filter_catid', 0, 'int' );
-		$filter_order = $mainframe->getUserStateFromRequest ( $option . 'filter_order', 'filter_order', 'a.ordering', 'cmd' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest ( $option . 'filter_order_Dir', 'filter_order_Dir', '', 'word' );
 		$search = $mainframe->getUserStateFromRequest ( $option . 'search', 'search', '', 'string' );
 		$search = JString::strtolower ( $search );
-		$where = array ();
-		if ($filter_catid > 0) {
-			$where [] = 'a.catid = ' . ( int ) $filter_catid;
-		}
+		$where = '';
 		if ($search) {
-			$where [] = 'LOWER(a.title) LIKE ' . $this->_db->Quote ( '%' . $search . '%' );
+			$where = array ();
+			$where [] = 'LOWER(u.username) LIKE ' . $this->_db->Quote ( '%' . $search . '%' );
+			$where [] = 'LOWER(u.name) LIKE ' . $this->_db->Quote ( '%' . $search . '%' );
+			$where [] = 'LOWER(u.email) LIKE ' . $this->_db->Quote ( '%' . $search . '%' );
+			$where = ' WHERE ' . implode ( ' OR ', $where );
 		}
-		if ($filter_state) {
-			if ($filter_state == 'P') {
-				$where [] = 'a.published = 1';
-			} else if ($filter_state == 'U') {
-				$where [] = 'a.published = 0';
-			}
-		}
-		$where = (count ( $where ) ? ' WHERE ' . implode ( ' AND ', $where ) : '');
 		return $where;
 	}
 }

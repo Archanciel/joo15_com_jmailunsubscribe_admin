@@ -26,7 +26,7 @@ class JMailUnsubscribeModelItem extends JModel {
 	*
 	* @var int
 	*/
-	var $_option = null;
+	var $_alert_option = null;
 	/**
 	* Item data
 	*
@@ -76,42 +76,27 @@ class JMailUnsubscribeModelItem extends JModel {
 	*/
 	function store($data) {
 		$row =& $this->getTable();
-		$user=& JFactory::getUser();
 		// Bind the form fields to the item table
 		if (!$row->bind($data)) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
-		// if new item, order last in appropriate group
-		if (!$row->id) {
-			$where = 'catid = ' . (int) $row->catid ;
-			$row->ordering = $row->getNextOrder( $where );
-		}
-		$isNew = true;
-		// Are we saving from an item edit?
-		if ($row->id) {
-			$isNew = false;
-			$datenow =& JFactory::getDate();
-			$row->modified 	= $datenow->toMySQL();
-			$row->modified_by 	= $user->get('id');
-		}
-
-		$row->created_by 	= $row->created_by ? $row->created_by : $user->get('id');
-		$row->created_by_alias 	= $row->created_by_alias ? $row->created_by_alias : $user->get('name');
-		if ($row->created && strlen(trim( $row->created )) <= 10) {
-			$row->created 	.= ' 00:00:00';
-		}
-
-		$config =& JFactory::getConfig();
-		$tzoffset = $config->getValue('config.offset');
-		$date =& JFactory::getDate($row->created, $tzoffset);
-		$row->created = $date->toMySQL();
-		
 		// Make sure the item table is valid
 		if (!$row->check()) {
 			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
+
+// 		$query = "UPDATE #__email_alert SET option = '" . $data->option . "' WHERE id = " . $data->cid;
+		
+// 		$this->_db->setQuery ( $query );
+// 		$result = $this->_db->query ();
+		
+// 		if ($this->_db->getErrorMsg ()) {
+// 			$this->setError($this->_db->getErrorMsg());
+// 			return false;
+// 		}
+		
 		// Store the item table to the database
 		if (!$row->store()) {
 			$this->setError($this->_db->getErrorMsg());
@@ -187,6 +172,25 @@ class JMailUnsubscribeModelItem extends JModel {
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			$this->_option = $this->_data->alert_option;
+			return (boolean) $this->_data;
+		}
+		return true;
+	}
+	
+	/**
+	 * Method to initialise the item data
+	 *
+	 * @access private
+	 * @return boolean True on success
+	 */
+	function _initData() {
+		// Lets load the item if it doesn't already exist
+		if (empty($this->_data)) {
+			$item = new stdClass();
+			$item->id = 0;
+			$item->alert_option = 0;
+			$this->_data = $item;
+				
 			return (boolean) $this->_data;
 		}
 		return true;

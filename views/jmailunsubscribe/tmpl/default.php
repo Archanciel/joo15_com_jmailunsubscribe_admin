@@ -36,9 +36,6 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 				<button
 					onclick="document.getElementById('search').value='';this.form.submit();"><?php echo JText::_( 'Reset' ); ?></button>
 			</td>
-			<td nowrap="nowrap">
-				<?php echo $this->lists ['state'];?>
-			</td>
 		</tr>
 	</table>
 	<div id="editcell">
@@ -50,28 +47,31 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					</th>
 					<th width="20"><input type="checkbox" name="toggle" value=""
 						onclick="checkAll(<?php echo count( $this->items ); ?>);" /></th>
-					<th width="150" class="title">
-						<?php echo JHTML::_('grid.sort', 'Title', 'a.title', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-					</th>
-					<th width="5%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort', 'Published', 'a.published', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-					</th>
 					<th width="15%" class="title">
-						<?php echo JHTML::_('grid.sort', 'Category', 'category', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort', 'Name', 'user_name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+					</th>
+					<th width="150" class="title">
+						<?php echo JHTML::_('grid.sort', 'Pseudo', 'user_pseudo', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
 					<th class="title">
-						<?php echo JHTML::_('grid.sort', 'Created By', 'a.created_by', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort', 'Email', 'user_email', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
 					<th class="title">
-						<?php echo JHTML::_('grid.sort', 'Created', 'a.created', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort', 'Registered', 'user_regdate', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
 					<th class="title">
-						<?php echo JHTML::_('grid.sort', 'Created', 'a.created', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort', 'Last login', 'user_lastvisit', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
 					<th width="1%" nowrap="nowrap">
-						<?php echo JHTML::_('grid.sort', 'ID', 'a.id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+						<?php echo JHTML::_('grid.sort', 'Alert ID', 'alert_id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
-				</tr>
+					<th width="1%" class="title">
+						<?php echo JHTML::_('grid.sort', 'Alert name', 'alert_name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+					</th>
+					<th width="1%" class="title">
+						<?php echo JHTML::_('grid.sort', 'Alert option', 'alert_option', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+					</th>
+					</tr>
 			</thead>
 			<tfoot>
 				<tr>
@@ -86,17 +86,8 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 				if (count ( $this->items ) > 0) {
 					for($i = 0, $n = count ( $this->items ); $i < $n; $i ++) {
 						$row = &$this->items [$i];
-						$link = JRoute::_ ( 'index.php?option=com_jmailunsubscribe&view=item&task=edit&cid[]=' . $row->id );
+						$link = JRoute::_ ( 'index.php?option=com_jmailunsubscribe&view=item&task=edit&cid[]=' . $row->alert_id );
 						$checked = JHTML::_ ( 'grid.checkedout', $row, $i );
-						// You can use different time formats , DATE_FORMAT_LC1 DATE_FORMAT_LC2 DATE_FORMAT_LC3 DATE_FORMAT_LC4 , These are defined in the language file
-						$datecreated = JHTML::_ ( 'date', $row->created, JText::_ ( 'DATE_FORMAT_LC3' ) );
-						if ($row->modified = "0000-00-00 00:00:00") {
-							$datemodified = JText::_ ( 'not modified' );
-						} else {
-							$datemodified = JHTML::_ ( 'date', $row->modified, JText::_ ( 'DATE_FORMAT_LC4' ) );
-						}
-						$published = JHTML::_ ( 'grid.published', $row, $i );
-						$row->cat_link = JRoute::_ ( 'index.php?option=com_categories&section=com_jmailunsubscribe&task=edit&type=other&cid[]=' . $row->catid );
 						?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td>
@@ -105,37 +96,30 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					<td>
 						<?php echo $checked; ?>
 					</td>
-					<td>
-						<?php
-						if (JTable::isCheckedOut ( $this->user->get ( 'id' ), $row->checked_out )) {
-							echo $row->title;
-						} else {
-							?>
-								<a href="<?php echo $link; ?>"
-						title="<?php echo JText::_( 'Edit' ); ?>">
-								<?php echo $row->title; ?></a>
-						<?php
-						}
-						?>
-					</td>
-					<td align="center">
-						<?php echo $published;?>
-					</td>
-					<td><a href="<?php echo $row->cat_link; ?>"
-						title="<?php echo JText::_( 'Edit Category' ); ?>">
-							<?php echo $row->category; ?>
-						</a></td>
 					<td align="left">
-						<?php echo $row->author; ?>
+						<?php echo $row->user_name; ?>
 					</td>
-					<td align="left"><?php echo $datecreated; ?>
+					<td align="left">
+						<?php echo $row->user_pseudo; ?>
 					</td>
-					<td align="left"><?php echo $datecreated; ?>
+					<td align="left">
+						<?php echo $row->user_email; ?>
+					</td>
+					<td align="left"><?php echo $row->user_regdate; ?>
+					</td>
+					<td align="left"><?php echo $row->user_lastvisit; ?>
 					</td>
 					<td align="center">
-						<?php echo $row->id; ?>
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit' ); ?>">
+						<?php echo $row->alert_id; ?></a>
 					</td>
-				</tr>
+					<td align="left">
+						<?php echo $row->alert_name; ?>
+					</td>
+					<td align="center">
+						<?php echo $row->alert_option; ?>
+					</td>
+					</tr>
 				<?php
 						$k = 1 - $k;
 					}
@@ -158,8 +142,3 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 		name="filter_order" value="<?php echo $this->lists['order']; ?>" /> <input
 		type="hidden" name="filter_order_Dir" value="" />
 </form>
-<div>
-	Diese Komponente wurde mit <a href="http://joodo.hopper-intermedia.de">jooDo!</a>
-	erstellt. Ein Service von <a href="http://hopper-intermedia.de">hopper
-		intermedia</a>.
-</div>
