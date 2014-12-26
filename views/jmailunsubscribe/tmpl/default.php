@@ -53,6 +53,12 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					<th width="1%" nowrap="nowrap">
 						<?php echo JHTML::_('grid.sort', 'Alert ID', 'alert_id', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
+					<th width="1%" class="title">
+						<?php echo JHTML::_('grid.sort', 'Alert option', 'alert_option', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+					</th>
+					<th width="1%" class="title">
+						<?php echo JHTML::_('grid.sort', 'Alert name', 'alert_name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
+					</th>
 					<th width="15%" class="title">
 						<?php echo JHTML::_('grid.sort', 'Name', 'user_name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
@@ -67,12 +73,6 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					</th>
 					<th class="title">
 						<?php echo JHTML::_('grid.sort', 'Last login', 'user_lastvisit', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-					</th>
-					<th width="1%" class="title">
-						<?php echo JHTML::_('grid.sort', 'Alert name', 'alert_name', $this->lists['order_Dir'], $this->lists['order'] ); ?>
-					</th>
-					<th width="1%" class="title">
-						<?php echo JHTML::_('grid.sort', 'Alert option', 'alert_option', $this->lists['order_Dir'], $this->lists['order'] ); ?>
 					</th>
 					</tr>
 			</thead>
@@ -103,6 +103,12 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 						<a href="<?php echo $link; ?>" title="<?php echo JText::_( 'Edit' ); ?>">
 						<?php echo $row->alert_id; ?></a>
 					</td>
+					<td align="center">
+						<?php echo $row->alert_option; ?>
+					</td>
+					<td align="left">
+						<?php echo $row->alert_name; ?>
+					</td>
 					<td align="left">
 						<?php echo $row->user_name; ?>
 					</td>
@@ -115,12 +121,6 @@ JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 					<td align="left"><?php echo $row->user_regdate; ?>
 					</td>
 					<td align="left"><?php echo $row->user_lastvisit; ?>
-					</td>
-					<td align="left">
-						<?php echo $row->alert_name; ?>
-					</td>
-					<td align="center">
-						<?php echo $row->alert_option; ?>
 					</td>
 					</tr>
 				<?php
