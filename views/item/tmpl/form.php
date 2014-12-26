@@ -72,6 +72,14 @@ if (! $edit) {
 							<td width="100" align="right"><strong><?php echo JText::_( 'Alert option to zero' ) ?>:</strong></td>
 							<td><?php echo $this->_item->alert_option ?></td>
 						</tr>
+						<tr>
+							<td width="100" align="right"><strong><?php echo JText::_( 'User name / pseudo' ) ?>:</strong></td>
+							<td><?php echo $this->_item->user_name . ' / ' . $this->_item->user_pseudo ?></td>
+						</tr>
+						<tr>
+							<td width="100" align="right"><strong><?php echo JText::_( 'User email' ) ?>:</strong></td>
+							<td><?php echo $this->_item->user_email ?></td>
+						</tr>
 					</tbody>
 				</table>
 			</td>

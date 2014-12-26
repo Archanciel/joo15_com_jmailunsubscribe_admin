@@ -164,9 +164,13 @@ class JMailUnsubscribeModelItem extends JModel {
 		// Lets load the item if it doesn't already exist
 		if (empty($this->_data)) {
 			$query = 'SELECT
-						a.id as alert_id, a.option as alert_option
+						a.id as alert_id, a.option as alert_option, u.username as user_pseudo, u.name as user_name, u.email as user_email
 					  FROM
 						#__email_alert as a
+					  LEFT JOIN
+						#__users as u
+					  ON  
+						a.user_id = u.id
 					  WHERE 
 						a.id = ' . (int) $this->_id;
 			$this->_db->setQuery($query);
