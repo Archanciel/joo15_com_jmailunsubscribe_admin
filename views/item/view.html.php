@@ -37,8 +37,6 @@ class JMailUnsubscribeViewItem extends JView {
 	function _displayForm($tpl) {
 		global $mainframe, $option;
 		$db = & JFactory::getDBO ();
-		$uri = & JFactory::getURI ();
-		$user = & JFactory::getUser ();
 		$model = & $this->getModel ( 'item' );
 		$lists = array ();
 		// get the item
