@@ -34,7 +34,6 @@
 			<folder>models</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
-			<folder>elements</folder>
 		</files>
 		<!-- Language Administrator -->
 		<languages folder="administrator/language/">

@@ -36,7 +36,6 @@
 				<include name="controller.php" />
 				<include name="config.xml" />
 				<include name="index.html" />
-				<include name="elements/*" />
 				<include name="helpers/*" />
 				<include name="models/*" />
 				<include name="tables/*" />
