@@ -85,7 +85,7 @@ class JMailUnsubscribeHelper {
 	}
 
 	public static function mailUnsubscribeConfirmation( $user_email, $newsletter_name) {
-		$unsubscribeConfirmMailBody = "Suite à votre demande, votre email '$user_email' a été supprimé de la liste de distribution '$newsletter_name' émise par <a href=\"http://plusconscient.net/\">Plusconscient.net</a>.\r\n\r\nCordiales salutations,\r\nJean-Pierre Schnyder, webmaster";
+		$unsubscribeConfirmMailBody = "Suite à votre demande, votre email '$user_email' a été supprimé de la liste de distribution '$newsletter_name' émise par http://plusconscient.net.\r\n\r\nCordiales salutations,\r\nJean-Pierre Schnyder, webmaster";
 		
 		self::sendMail("DESINCRIPTION EFFECTUEE", $unsubscribeConfirmMailBody, $user_email);
 	}
