@@ -15,6 +15,7 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
 jimport ( 'joomla.application.component.controller' );
 require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php');
+
 /**
  * JMailUnsubscribe Controller
  *
@@ -58,6 +59,10 @@ class JMailUnsubscribeController extends JController {
 		$this->id = $post ['id'];
 		$model = $this->getModel ( 'item' );
 		if ($model->store ( $post )) {
+			$alert_data = $model->getData ();
+			$user_email = $alert_data->user_email;
+			$alert_name = $alert_data->alert_name;
+			JMailUnsubscribeHelper::mailUnsubscribeConfirmation($user_email, $alert_name);
 			$this->msg = JText::_ ( 'Item Saved' );
 		} else {
 			$this->msg = JText::_ ( 'Error Saving Item' );
