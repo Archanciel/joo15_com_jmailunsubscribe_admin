@@ -13,6 +13,15 @@
 // no direct access
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
 
+require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/helper.php';
+
+$unsubscribe = JRequest::getVar ( 'unsubscribe' , '0' );
+
+if (strcmp($unsubscribe,'0') != 0) {
+	JMailUnsubscribeHelper::execUnsubscribe((int)$unsubscribe);
+	return;
+}
+
 // Require the base controller
 require_once (JPATH_COMPONENT . DS . 'controller.php');
 

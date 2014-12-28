@@ -163,16 +163,20 @@ class JMailUnsubscribeModelItem extends JModel {
 	function _loadData() {
 		// Lets load the item if it doesn't already exist
 		if (empty($this->_data)) {
-			$query = 'SELECT
-						a.id as alert_id, a.option as alert_option, u.username as user_pseudo, u.name as user_name, u.email as user_email
+			$query = "SELECT
+						a.id as alert_id, a.option as alert_option, t.alert_name as alert_name, u.username as user_pseudo, u.name as user_name, u.email as user_email, DATE_FORMAT(u.registerDate,'%Y-%m-%d') as user_reg_date, DATE_FORMAT(u.lastVisitDate,'%Y-%m-%d') as user_last_visit_date
 					  FROM
 						#__email_alert as a
 					  LEFT JOIN
 						#__users as u
 					  ON  
 						a.user_id = u.id
+					  LEFT JOIN
+						#__email_alert_type as t 
+					  ON
+						a.alert_id = t.id
 					  WHERE 
-						a.id = ' . (int) $this->_id;
+						a.id = " . (int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 			$this->_option = $this->_data->alert_option;

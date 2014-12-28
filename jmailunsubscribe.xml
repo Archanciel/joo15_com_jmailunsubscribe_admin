@@ -6,10 +6,16 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<version>${extension_version}</version><!-- ${extension_version defined 
 		in ./build.properties -->
-	<description>Administrator component to unsubscribe a J!MailAlert for the specified email address
+	<description>Administrator component to unsubscribe a J!MailAlert for a user. The corresoonding front component handles the unsubscription link in the newsletter. 
 	</description>
 	<installfile>install.jmailunsubscribe.php</installfile>
 	<uninstallfile>uninstall.jmailunsubscribe.php</uninstallfile>
+
+	<!-- Site Main File Copy Section -->
+	<files folder="component">
+		<filename>jmailunsubscribe.php</filename>
+		<filename>index.html</filename>
+	</files>
 
 	<administration>
 		<menu>JMailUnsubscribe</menu>

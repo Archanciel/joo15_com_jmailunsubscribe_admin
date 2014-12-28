@@ -14,7 +14,7 @@
 defined ( '_JEXEC' ) or die ( 'Restricted access' );
 function com_uninstall() {
 	?>
-<div class="header">The administator component JMailUnsubscribe was
+<div class="header">The JMailUnsubscribe component was
 	sucessfully removed</div>
 <?php
 }

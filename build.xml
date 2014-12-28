@@ -16,6 +16,16 @@
 		override="true" />
 	<property name="version">v${extension_version}</property><!-- ${extension_version defined in ./build.properties -->
 
+	<target name="copy_to_front_dir" description="Copies files to front component src dir">
+		<delete dir="${front.src}" includeemptydirs="true" verbose="false" />
+		<copy todir="${front.src}" overwrite="true">
+			<fileset dir="${admin.src}">
+				<include name="${artifact.name}.php" />
+				<include name="index.html" />
+			</fileset>
+		</copy>
+	</target>
+
 	<target name="build_packaging_dir" description="Copies files to component packaging dir">
 		<delete dir="${packaging.dir}" includeemptydirs="true" verbose="false" />
 		<copy todir="${packaging.dir}/administrator" overwrite="true">
@@ -45,10 +55,16 @@
 				<include name="index.html" />
 			</fileset>
 		</copy>
+		<copy todir="${packaging.dir}/component" overwrite="true">
+			<fileset dir="${front.src}">
+				<include name="${artifact.name}.php" />
+				<include name="controller.php" />
+				<include name="index.html" />
+			</fileset>
+		</copy>
 	</target>
 
-	<!-- arget name="build_install_zip" depends="build_packaging_dir" -->
-	<target name="build_install_zip" depends="build_packaging_dir"
+	<target name="build_install_zip" depends="copy_to_front_dir, build_packaging_dir"
 		description="build the install zip">
 		<delete file="${install.zip.file.dest}/com_${artifact.name}_${version}.zip" />
 		<zip destfile="${install.zip.file.dest}/com_${artifact.name}_${version}.zip">

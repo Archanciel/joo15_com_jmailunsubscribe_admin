@@ -17,8 +17,7 @@ function com_install() {
 	?>
 <div class="header">The Component JMailUnsubscribe was sucessfully
 	installed</div>
-<p>Administrator component to unsubscribe a J!MailAlert for the
-	specified email address</p>
+<p>Administrator component to unsubscribe a J!MailAlert for a user. The corresoonding front component handles the unsubscription link in the newsletter.</p>
 <?php
 }
 ?>
