@@ -16,6 +16,18 @@
 		override="true" />
 	<property name="version">v${extension_version}</property><!-- ${extension_version defined in ./build.properties -->
 
+	<fileset dir="${admin.src}/language" id="languages">
+		<include name="en-GB.com_${artifact.name}.ini" />
+		<include name="en-GB.com_${artifact.name}.menu.ini" />
+	</fileset>
+
+	<!-- copying the plugin language files to the administrator dir -->
+	<target name="copy_to_admin_language_folder" description="Copies language files to Joomla15 administrator language folder">
+		<copy todir="${joomla.root}/administrator/language/en-GB" overwrite="true">
+			<fileset refid="languages"/>
+		</copy>
+	</target>
+
 	<target name="copy_to_front_dir" description="Copies files to front component src dir">
 		<delete dir="${front.src}" includeemptydirs="true" verbose="false" />
 		<copy todir="${front.src}" overwrite="true">
@@ -63,7 +75,7 @@
 		</copy>
 	</target>
 
-	<target name="build_install_zip" depends="copy_to_front_dir, build_packaging_dir"
+	<target name="build_install_zip" depends="copy_to_admin_language_folder, copy_to_front_dir, build_packaging_dir"
 		description="build the install zip">
 		<delete file="${install.zip.file.dest}/com_${artifact.name}_${version}.zip" />
 		<zip destfile="${install.zip.file.dest}/com_${artifact.name}_${version}.zip">
