@@ -8,7 +8,7 @@
 		<param name="@spacer" type="spacer" default="" label="" description="" />
 		<param name="confirm_email_bcc_to_admin" type="radio" default="1" label="Send confirm email as BCC to admin" description="SEND_BCC_CONFIRM_MAIL_TO_ADMIN">
 			<option value="0">No CCI</option>
-			<option value="1">CCI to admin</option>
+			<option value="1">BCC to admin</option>
 		</param>
 	</params>
 </config>
