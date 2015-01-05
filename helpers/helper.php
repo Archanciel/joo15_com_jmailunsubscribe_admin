@@ -49,15 +49,22 @@ class JMailUnsubscribeHelper {
 		$user_regdate = $alert_data->user_reg_date;
 		$user_lastvisit = $alert_data->user_last_visit_date;
 		
-		self::mailUnsubscribeConfirmation ( $user_email, $alert_name );
+		jimport('joomla.application.component.helper');
+		$params = JComponentHelper::getParams('com_jmailunsubscribe');
+		$sendConfirmEmail = $params->get('confirm_email',0);
+		$sendConfirmEmailBCC = $params->get('confirm_email_bcc_to_admin',0);
+
+		if ($sendConfirmEmail) {
+			self::mailUnsubscribeConfirmation ( $user_email, $alert_name, $sendConfirmEmailBCC );
+		}
 
 		$logEntry = array (
 				'LEVEL' => '1',
 				'STATUS' => 'INFO:',
-				'COMMENT' => "Unsubscribed $user_name with email $user_email from list '$alert_name'.\r\nUser reg date / lst login: $user_regdate / $user_lastvisit." 
+				'COMMENT' => "Unsubscribed $user_name with email $user_email from list '$alert_name'. User reg date: $user_regdate.  Lst login: $user_lastvisit." 
 		);
 		
-		self::logAndMailToAdmin ("UNSUBSCRIBE PROCESSED" , $logEntry );
+		self::log($logEntry);
 	}
 	
 	private static function executeQuery(JDatabase $db, $query) {
@@ -72,7 +79,8 @@ class JMailUnsubscribeHelper {
 					'STATUS' => 'ERROR:',
 					'COMMENT' => "UNSUBSCRIPTION PROBLEM ENCOUNTERED.\r\nERROR MSG FOLLOWS:\r\n$errorMsg\r\n" 
 			);
-			self::logAndMailToAdmin ( 'Dailystats Cron ERROR', $logEntry );
+			
+			self::logAndMailToAdmin ( 'JMailUnsuscribe ERROR', $logEntry );
 			
 			// throwing an exception instead of using JError::raiseError() makes it possible to
 			// unit test the caae causing the exception. In the browser, this simply results in
@@ -84,33 +92,45 @@ class JMailUnsubscribeHelper {
 		}
 	}
 
-	public static function mailUnsubscribeConfirmation( $user_email, $newsletter_name) {
+	/**
+	 * Helper function called by the controller to notify the user he haa been unsubscribed from 
+	 * the newsletter.
+	 * 
+	 * @param unknown $user_email
+	 * @param unknown $newsletter_name
+	 * @param unknown $sendConfirmEmailBCC
+	 */
+	public static function mailUnsubscribeConfirmation( $user_email, $newsletter_name, $sendConfirmEmailBCC) {
 		$unsubscribeConfirmMailBody = "Suite à votre demande, votre email '$user_email' a été supprimé de la liste de distribution '$newsletter_name' émise par http://plusconscient.net.\r\n\r\nCordiales salutations,\r\nJean-Pierre Schnyder, webmaster";
 		
-		self::sendMail("DESINCRIPTION EFFECTUEE", $unsubscribeConfirmMailBody, $user_email);
+		self::sendMail("DESINCRIPTION EFFECTUEE", $unsubscribeConfirmMailBody, $user_email, $sendConfirmEmailBCC);
+	}
+
+	private static function log($logEntry) {
+		$log = JLog::getInstance ( "com_jmailunsubscribed.php" );
+		$log->addEntry ( $logEntry );
 	}
 	
 	private static function logAndMailToAdmin($subject, $logEntry) {
-		$log = JLog::getInstance ( "com_jmailunsubscribed.php" );
-		$log->addEntry ( $logEntry );
-		
+		self::log($logEntry);
+	
 		// fetch the site's email address and name from the global configuration. These are set in the
 		// administration back-end (Global Configuration -> Server -> Mail Settings)
-		
+	
 		/* @var $mailThis JFactory */
 		$config = JFactory::getConfig ();
 		$adminMail = array (
 				$config->getValue ( 'config.mailfrom' ),
-				$config->getValue ( 'config.fromname' ) 
+				$config->getValue ( 'config.fromname' )
 		);
-
-		self::sendMail($subject, $logEntry ['COMMENT'], $adminMail [0]);
-	}	
 	
-	private static function sendMail($subject, $mailBody, $emailTo) {
+		self::sendMail($subject, $logEntry ['COMMENT'], $adminMail [0], 0);
+	}
+		
+	private static function sendMail($subject, $mailBody, $emailTo, $sendConfirmEmailBCC) {
 		// fetch the site's email address and name from the global configuration. These are set in the
 		// administration back-end (Global Configuration -> Server -> Mail Settings)
-	
+				
 		/* @var $mailThis JFactory */
 		$config = JFactory::getConfig ();
 		$adminMail = array (
@@ -123,6 +143,11 @@ class JMailUnsubscribeHelper {
 		$mailThis->setSender ( $adminMail );
 		// $mailThis->addRecipient($adminMail); // Joomla 3
 		$mailThis->addRecipient ( $emailTo ); // Joomla 1.5
+		
+		if ($sendConfirmEmailBCC) {
+			$mailThis->addBCC($adminMail);
+		}
+		
 		$mailThis->setSubject ( $subject );
 	
 		$mailThis->setBody ( $mailBody );
