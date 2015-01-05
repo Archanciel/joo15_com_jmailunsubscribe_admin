@@ -78,42 +78,6 @@ class JMailUnsubscribeController extends JController {
 		$link = 'index.php?option=com_jmailunsubscribe&view=item&task=edit&cid[]=' . $this->id;
 		$this->setRedirect ( $link, $this->msg );
 	}
-	function remove() {
-		$cid = JRequest::getVar ( 'cid', array (), 'post', 'array' );
-		JArrayHelper::toInteger ( $cid );
-		if (count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_ ( 'Select an item to delete' ) );
-		}
-		$model = $this->getModel ( 'item' );
-		if (! $model->delete ( $cid )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>";
-		}
-		$this->setRedirect ( 'index.php?option=com_jmailunsubscribe' );
-	}
-	function publish() {
-		$cid = JRequest::getVar ( 'cid', array (), 'post', 'array' );
-		JArrayHelper::toInteger ( $cid );
-		if (count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_ ( 'Select an item to publish' ) );
-		}
-		$model = $this->getModel ( 'item' );
-		if (! $model->publish ( $cid, 1 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>";
-		}
-		$this->setRedirect ( 'index.php?option=com_jmailunsubscribe' );
-	}
-	function unpublish() {
-		$cid = JRequest::getVar ( 'cid', array (), 'post', 'array' );
-		JArrayHelper::toInteger ( $cid );
-		if (count ( $cid ) < 1) {
-			JError::raiseError ( 500, JText::_ ( 'Select an item to unpublish' ) );
-		}
-		$model = $this->getModel ( 'item' );
-		if (! $model->publish ( $cid, 0 )) {
-			echo "<script> alert('" . $model->getError ( true ) . "'); window.history.go(-1); </script>";
-		}
-		$this->setRedirect ( 'index.php?option=com_jmailunsubscribe' );
-	}
 	function cancel() {
 		$model = $this->getModel ( 'item' );
 		$this->setRedirect ( 'index.php?option=com_jmailunsubscribe' );

@@ -17,11 +17,6 @@ defined ( '_JEXEC' ) or die ( 'Restricted access' );
 <?php
 // Set toolbar items for the page
 JToolBarHelper::title ( JText::_ ( 'JMailUnsubscribe' ), 'generic.png' );
-JToolBarHelper::publishList ();
-JToolBarHelper::unpublishList ();
-JToolBarHelper::deleteList ();
-JToolBarHelper::editListX ();
-JToolBarHelper::addNewX ();
 JToolBarHelper::preferences ( 'com_jmailunsubscribe', '550' );
 ?>
 <form action="index.php" method="post" name="adminForm">
