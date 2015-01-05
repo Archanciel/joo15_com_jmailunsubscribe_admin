@@ -18,7 +18,11 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/helper.php';
 $unsubscribe = JRequest::getVar ( 'unsubscribe' , '0' );
 
 if (strcmp($unsubscribe,'0') != 0) {
+// 	Link included in the newsletter (999 is the jos_email_alert id):
+// 	http://localhost/plusconscient15_dev/index.php?option=com_jmailunsubscribe&unsubscribe=999
+	
 	JMailUnsubscribeHelper::execUnsubscribe((int)$unsubscribe);
+	echo '<h1>DESINSCRIPTION EFFECTUEE !</h1>';
 	return;
 }
 
