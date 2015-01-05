@@ -62,7 +62,17 @@ class JMailUnsubscribeController extends JController {
 			$alert_data = $model->getData ();
 			$user_email = $alert_data->user_email;
 			$alert_name = $alert_data->alert_name;
-			JMailUnsubscribeHelper::mailUnsubscribeConfirmation($user_email, $alert_name);
+			
+			// determine if unsubscription confirmation email must be sent
+			jimport('joomla.application.component.helper');
+			$params = JComponentHelper::getParams('com_jmailunsubscribe');
+			$sendConfirmEmail = $params->get('confirm_email',0);
+			
+			if ($sendConfirmEmail) {
+				$sendConfirmEmailBCC = $params->get('confirm_email_bcc_to_admin',0);
+				JMailUnsubscribeHelper::mailUnsubscribeConfirmation($user_email, $alert_name, $sendConfirmEmailBCC);
+			}
+			
 			$this->msg = JText::_ ( 'Item Saved' );
 		} else {
 			$this->msg = JText::_ ( 'Error Saving Item' );
