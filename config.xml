@@ -1,38 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<params>
-		<param name="show_author" type="radio" default="1" label="Author Names" description="TIPIFSETTOSHOWAUTHOR">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_create_date" type="radio" default="1" label="Created Date and Time" description="TIPIFSETTOSHOWDATETIMECREATED">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_modify_date" type="radio" default="1" label="Modified Date and Time" description="TIPIFSETTOSHOWDATETIMEMODIFIED">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_hits" type="radio" default="1" label="Hits" description="TIPIFSETTOSHOWHITS">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+		<param name="confirm_email" type="radio" default="1" label="Send confirm email" description="SEND_CONFIRM_MAIL">
+			<option value="0">No confirmation</option>
+			<option value="1">Unsubscription confirmation</option>
 		</param>
 		<param name="@spacer" type="spacer" default="" label="" description="" />
-		<param name="show_icons" type="radio" default="1" label="Icons" description="TIPPRINTPDFEMAIL">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_pdf_icon" type="radio" default="1" label="PDF Icon" description="PARAMPDF">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="PARAMPRINT">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
-		</param>
-		<param name="show_email_icon" type="radio" default="1" label="Email Icon" description="PARAMEMAIL">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
+		<param name="confirm_email_bcc_to_admin" type="radio" default="1" label="Send confirm email as BCC to admin" description="SEND_BCC_CONFIRM_MAIL_TO_ADMIN">
+			<option value="0">No CCI</option>
+			<option value="1">CCI to admin</option>
 		</param>
 	</params>
 </config>
