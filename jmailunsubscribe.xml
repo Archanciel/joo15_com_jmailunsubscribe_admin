@@ -19,9 +19,6 @@
 
 	<administration>
 		<menu>JMailUnsubscribe</menu>
-		<submenu>
-			<menu link="option=com_jmailunsubscribe">JMailUnsubscribe</menu>
-		</submenu>
 		<!-- Administration Main File Copy Section -->
 		<files>
 			<filename>jmailunsubscribe.xml</filename>
